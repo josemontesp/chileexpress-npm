@@ -1,0 +1,31 @@
+{
+  "name": "chileexpress",
+  "version": "1.0.0",
+  "description": "Módulo para hacer el seguimiento de paquetes de Chileexpress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Chile",
+    "express",
+    "chileexpress",
+    "chilexpress",
+    "correo",
+    "seguimiento"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josemontesp/chileexpress-npm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/josemontesp/chileexpress-npm.git/issues"
+  },
+  "author": "José Miguel Montes",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1"
+  }
+}
