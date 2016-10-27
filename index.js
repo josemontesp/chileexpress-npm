@@ -44,8 +44,7 @@ function parseBody(body){
 				var hora = elem.children[1].children[0].data;
 				var actividad = elem.children[2].children[0].data;
 				hitosResp.push({
-					'fecha': fecha,
-					'hora': hora,
+					'fecha': fecha + ' ' + hora,
 					'actividad': actividad
 				})
 			}
