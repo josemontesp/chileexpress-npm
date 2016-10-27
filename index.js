@@ -33,6 +33,11 @@ function parseBody(body){
 				entregaResp[key] = elem.children[1].data.trim();
 			}
 		})
+		if (entregaResp['hora_entrega']){
+			entregaResp['fecha_entrega'] += ' ' + entregaResp['hora_entrega'];
+			delete entregaResp['hora_entrega'];
+		}
+
 	}catch(e){}
 
 	//Parsing hitosTable
