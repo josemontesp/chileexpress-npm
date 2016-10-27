@@ -1,6 +1,6 @@
 {
   "name": "chileexpress",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Módulo para hacer el seguimiento de paquetes de Chileexpress",
   "main": "index.js",
   "scripts": {
