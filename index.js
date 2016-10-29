@@ -3,10 +3,14 @@
 const cheerio = require('cheerio');
 const request = require('request-promise');
 
-const url = 'http://www.chilexpress.cl/Views/ChilexpressCL/Resultado-busqueda.aspx';
+var options = {
+	url : 'http://www.chilexpress.cl/Views/ChilexpressCL/Resultado-busqueda.aspx',
+	method: 'GET',
+	headers: {'Connection':'Close'}
+};
 
 function parseBody(body){
-	if (body.indexOf('No hemos encontrado resultados') != -1){
+	if (body.indexOf('No hemos encontrado resultados') !== -1){
 		return -1;
 	}
 	var $ = cheerio.load(body);
@@ -20,7 +24,7 @@ function parseBody(body){
 		cheerio.load(infoTable)('li').each((i,elem)=> {
 			var key = elem.children[0].children[0].data.replace(':','').toLowerCase().replace(/ /g, '_');
 			infoResp[key] = elem.children[1].data.trim();
-		})
+		});
 	}catch(e){}
 		
 
@@ -32,7 +36,7 @@ function parseBody(body){
 				var key = elem.children[0].children[0].data.replace(':','').toLowerCase().replace(/ /g, '_');
 				entregaResp[key] = elem.children[1].data.trim();
 			}
-		})
+		});
 		if (entregaResp['hora_entrega']){
 			entregaResp['fecha_entrega'] += ' ' + entregaResp['hora_entrega'];
 			delete entregaResp['hora_entrega'];
@@ -44,34 +48,37 @@ function parseBody(body){
 	var hitosResp = [];
 	try{
 		cheerio.load(hitosTable)('tr').each((i,elem)=> {
-			if (i != 0){
+			if (i !== 0){
 				var fecha = elem.children[0].children[0].data;
 				var hora = elem.children[1].children[0].data;
 				var actividad = elem.children[2].children[0].data;
 				hitosResp.push({
 					'fecha': fecha + ' ' + hora,
 					'actividad': actividad
-				})
+				});
 			}
-		})
+		});
 	}catch(e){}
 	
 	return {
 		info: infoResp,
 		entrega: entregaResp,
 		hitos: hitosResp
-	}
+	};
 }
 
 function getTrackingInfo(idPedido){
-	return request.get(url+'?DATA='+idPedido).then(body => {
-		return parseBody(body)
-	})
+	options.qs = {
+		'DATA' : idPedido
+	};
+	return request(options).then(body => {
+		return parseBody(body);
+	});
 }
 
 module.exports = function (trackingIdArray){
 	return Promise.all(trackingIdArray.map(t=>{
 		return getTrackingInfo(t);
 	}));
-}
+};
 
